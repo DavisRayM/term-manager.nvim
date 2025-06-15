@@ -21,6 +21,12 @@ local state = {
 ---@field style ?string: (default: "minimal") Style of the created floating window.
 ---@field border ?string|string[]: (default: "single") Border style of the floating window.
 
+-- Create new floating window
+--
+local create_floating_window = function(bufnr, enter, config)
+  return vim.api.nvim_open_win(bufnr, enter, config)
+end
+
 --- Creates a new window
 ---@param opts ?term-manager.termConfig: Terminal configuration
 ---@return term-manager.TermState
@@ -47,7 +53,7 @@ local create_window = function(opts)
     local row = math.floor((max_height - height) / 2 - 1)
     local col = math.floor((max_width - width) / 2)
 
-    win = vim.api.nvim_open_win(bufnr, opts.enter, {
+    win = create_floating_window(bufnr, opts.enter, {
       relative = "editor",
       width = width,
       height = height,
