@@ -66,7 +66,7 @@ local create_window = function(opts)
     vim.cmd("split")
     vim.cmd("wincmd J")
     win = vim.api.nvim_get_current_win()
-    vim.api.nvim_win_set_width(win, opts.height or 10)
+    vim.api.nvim_win_set_height(win, opts.height or 10)
     vim.api.nvim_win_set_buf(win, bufnr)
   end
 
