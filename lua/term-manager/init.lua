@@ -6,10 +6,12 @@ local M = {}
 
 ---@class term-manager._State
 ---@field focused_terminal term-manager.TermState: Buffer of the currently focused terminal.
+---@field buffers number[]: Buffer ids
 
 ---@type term-manager._State
 local state = {
   focused_terminal = { bufnr = -1, win = -1 },
+  buffers = {},
 }
 
 ---@class term-manager.termConfig
@@ -38,7 +40,7 @@ local create_window = function(opts)
   -- Check if buffer is valid; If not create a new one
   local bufnr = opts.bufnr or -1
   if not vim.api.nvim_buf_is_valid(bufnr) then
-    bufnr = vim.api.nvim_create_buf(false, true)
+    bufnr = vim.api.nvim_create_buf(true, true)
   end
 
   local win
@@ -99,6 +101,7 @@ M.start_terminal = function(insert, opts)
   end
 
   state.focused_terminal = term
+  table.insert(state.buffers, term.bufnr)
 end
 
 --- Toggle currently active terminal session.
